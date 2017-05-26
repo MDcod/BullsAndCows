@@ -40,7 +40,16 @@ namespace BullsAndCows
             {
                 Console.WriteLine("Некорректный запрос. Запрос должен состоять только из цифр");
                 return false;
-            }          
+            }
+            for (int i = 0; i < input.Count(); i++)
+                for (int j = i+1; j < input.Count(); j++)
+                {
+                    if (input[i] == input[j])
+                    {
+                        Console.WriteLine("Некорректный запрос. Не должно быть повторяющихся цифр");
+                        return false;
+                    }
+                }
             return true;
         }
 
