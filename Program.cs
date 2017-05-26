@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace BullsAndCows
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var enigma = GetEnigma(); //Получение загаданного числа
             while (true)
@@ -16,8 +16,11 @@ namespace BullsAndCows
                 // Преобразование введеного числа в массив цифр
                 var answer = input.Select(n => (int)char.GetNumericValue(n)).ToArray();
                 // Сравнение загаданного числа и числа введенного пользователем
-                if (ComparisonNumber(enigma, answer)) break;                
+                if (ComparisonNumber(enigma, answer)[0] == 4) break;
+                Console.WriteLine("{0} бык., {1} кор.",
+                    ComparisonNumber(enigma, answer)[0], ComparisonNumber(enigma, answer)[1]);
             }
+            Console.WriteLine("Число угадано!");
             Console.ReadKey();
         }
 
@@ -26,7 +29,7 @@ namespace BullsAndCows
         /// </summary>
         /// <param name="answer">Запрос пользователя</param>
         /// <returns></returns>
-        static bool InputValidation(string input)
+        public static bool InputValidation(string input)
         {           
             if (input.All(x => char.IsNumber(x)) && input.Count() != 4)
             {
@@ -47,7 +50,7 @@ namespace BullsAndCows
         /// <param name="enigma">Загаданное число</param>
         /// <param name="answer">Ответ пользователя</param>
         /// <returns></returns>
-        static bool ComparisonNumber(int[] enigma, int[] answer)
+        public static int[] ComparisonNumber(int[] enigma, int[] answer)
         {
             int bulls = 0;
             int cows = 0;
@@ -59,21 +62,14 @@ namespace BullsAndCows
                         if (e == a) bulls++;
                         else cows++;
                 }
-            // Вывод результата сравнения
-            if (bulls == 4)
-            {
-                Console.WriteLine("Число угадано!");
-                return true;
-            }
-            Console.WriteLine("{0} бык., {1} кор.", bulls, cows);
-            return false;
+            return new int[] { bulls, cows };
         }
 
         /// <summary>
         /// Возвращает четырехзначное значное число с неповторяющимися цифрами
         /// </summary>
         /// <returns></returns>
-        static int[] GetEnigma()
+        public static int[] GetEnigma()
         {
             int[] enigma = new int[4];
             Random random = new Random();
