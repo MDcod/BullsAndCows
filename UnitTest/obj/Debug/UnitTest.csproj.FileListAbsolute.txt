@@ -1,0 +1,7 @@
+C:\Programming\VS.project\SKBTest\UnitTest\bin\Debug\UnitTest.dll
+C:\Programming\VS.project\SKBTest\UnitTest\bin\Debug\UnitTest.pdb
+C:\Programming\VS.project\SKBTest\UnitTest\bin\Debug\BullsAndCows.exe
+C:\Programming\VS.project\SKBTest\UnitTest\bin\Debug\BullsAndCows.pdb
+C:\Programming\VS.project\SKBTest\UnitTest\obj\Debug\UnitTest.csprojResolveAssemblyReference.cache
+C:\Programming\VS.project\SKBTest\UnitTest\obj\Debug\UnitTest.dll
+C:\Programming\VS.project\SKBTest\UnitTest\obj\Debug\UnitTest.pdb
