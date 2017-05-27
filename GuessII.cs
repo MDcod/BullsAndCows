@@ -12,15 +12,14 @@ namespace BullsAndCows
         {
             Console.Clear();
             Console.WriteLine("Игра \"Быки и коровы\"! Компьютер отгадывает число!\n");
-            Console.WriteLine("В   Р А З Р А Б О Т К Е\n");
 
-            //var number = GuessUser.GetEnigma();
-            //foreach (var n in number)
-            //    Console.Write(n);
+            var number = GuessUser.GetEnigma();
+            foreach (var n in number)
+                Console.Write(n);
 
-            //var input = InputAnswer();
+            var input = InputAnswer();
 
-            //Analysis(input[0], input[1], number);
+            Analysis(input[0], input[1], number);
         }
 
         private static int[] InputAnswer()
