@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace BullsAndCows
@@ -9,21 +10,19 @@ namespace BullsAndCows
         {
             Console.Clear();
             Console.WriteLine("Игра \"Быки и коровы\"! Отгадывайте число!");
-
             var enigma = GetEnigma(); //Получение загаданного числа
             while (true)
             {
-                var input = Console.ReadLine(); // Ввод числа
+                var answer = Console.ReadLine(); // Ввод числа
                 // Проверка введенного числа, если ввод некоректен, запрашивается новый ввод
-                if (!ValidationInput.UserAnswer(input)) continue;
-                // Преобразование введеного числа в массив цифр
-                var answer = input.Select(n => (int)char.GetNumericValue(n)).ToArray();
+                if (!ValidationInput.UserAnswer(answer)) continue;
                 // Сравнение загаданного числа и числа введенного пользователем
                 if (ComparisonNumber(enigma, answer)[0] == 4) break;
                 Console.WriteLine("{0} бык., {1} кор.",
                     ComparisonNumber(enigma, answer)[0], ComparisonNumber(enigma, answer)[1]);
             }
-            Console.WriteLine("Число угадано!\n");
+            Console.WriteLine("Число угадано!");
+            Menu.GameMenu();
         }
 
         /// <summary>
@@ -32,16 +31,16 @@ namespace BullsAndCows
         /// <param name="enigma">Загаданное число</param>
         /// <param name="answer">Ответ пользователя</param>
         /// <returns></returns>
-        public static int[] ComparisonNumber(int[] enigma, int[] answer)
+        public static int[] ComparisonNumber(string enigma, string answer)
         {
             int bulls = 0;
             int cows = 0;
             // Посимвольное сравнение чисел
-            for (int e = 0; e < 4; e++)
-                for (int a = 0; a < 4; a++)
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
                 {
-                    if (enigma[e] == answer[a])
-                        if (e == a) bulls++;
+                    if (enigma[i] == answer[j])
+                        if (i == j) bulls++;
                         else cows++;
                 }
             return new int[] { bulls, cows };
@@ -51,21 +50,11 @@ namespace BullsAndCows
         /// Возвращает четырехзначное значное число с неповторяющимися цифрами
         /// </summary>
         /// <returns></returns>
-        public static int[] GetEnigma()
+        public static string GetEnigma()
         {
-            int[] enigma = new int[4];
+            var combinations = File.ReadLines("GenerationСombinationFourdigitNumbers.txt").ToArray();
             Random random = new Random();
-            for (int i = 0; i < 4;)
-            {
-                int numeral = random.Next(0, 10);
-                // Проверка на повторение цифр
-                if (enigma.All(x => x != numeral))
-                {
-                    enigma[i] = numeral;
-                    i++;
-                }
-            }
-            return enigma;
+            return combinations[random.Next(combinations.Count())];
         }
     }
 }

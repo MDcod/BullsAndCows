@@ -8,7 +8,7 @@ namespace BullsAndCows
         /// <summary>
         /// Проверка введеного пользователем числа
         /// </summary>
-        /// <param name="answer">Запрос пользователя</param>
+        /// <param name="answer">Ответ пользователя</param>
         /// <returns></returns>
         public static bool UserAnswer(string input)
         {
@@ -34,6 +34,11 @@ namespace BullsAndCows
             return true;
         }
 
+        /// <summary>
+        /// Проверка введеного пользователем количества быков
+        /// </summary>
+        /// <param name="bulls">Количество быков</param>
+        /// <returns></returns>
         public static bool Bulls(string bulls)
         {
             if (bulls.Length > 1)
@@ -54,6 +59,12 @@ namespace BullsAndCows
             return true;
         }
 
+        /// <summary>
+        /// Проверка введеного пользователем количества коров
+        /// </summary>
+        /// <param name="bulls">Количество быков</param>
+        /// <param name="cows">Количество коров</param>
+        /// <returns></returns>
         public static bool Cows(string bulls, string cows)
         {
             if (cows.Length > 1)
