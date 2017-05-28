@@ -25,7 +25,7 @@ namespace BullsAndCows
 
         public static void DisplayMenu()
         {
-            Console.WriteLine("Игра \"Быки и коровы\" \n");
+            Console.WriteLine("\nИгра \"Быки и коровы\" \n");
             Console.WriteLine("Выбор режима игры: \n");
             Console.WriteLine("1. Пользователь отгадывает, загаданное компьютером, число.");
             Console.WriteLine("2. Компьютер отгадывает, загаданное пользователем, число.");

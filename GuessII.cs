@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,14 +17,37 @@ namespace BullsAndCows
 
             //GenerationListNumber();
 
-            var sochetanie = File.ReadLines("GENERATION.txt").ToList<string>();
-            //var number = GuessUser.GetEnigma();
-            //foreach (var n in number)
-            //    Console.Write(n);
+            var sochetanie = File.ReadLines("GENERATION.txt").ToArray();
+            var flag = new bool[5040];
+            for (int i = 0; i < 5040; i++)
+                flag[i] = true;            
+            string move;
+            while (true)
+            {
+                move = SelectMove(sochetanie, flag);
+                Console.WriteLine(move);
+                var input = InputAnswer();
+                if (input[0] == 4)
+                {
+                    Console.WriteLine("Число угадано!");
+                    break;
+                }
+                for (int i = 0; i < 5040; i++)
+                    if (!Analysis(input[0], input[1], sochetanie[i], move)) flag[i] = false;                
+                Console.WriteLine("Осталось вариантов: {0}", flag.Count(x => x == true));
+            }
+        }
 
-            //var input = InputAnswer();
-
-            //Analysis(input[0], input[1], number);
+        public static string SelectMove (string[] s, bool[] f)
+        {
+            Random random = new Random();
+            int indexMove = random.Next(5040);
+            while (true)
+            {
+                if (f[indexMove] == true) break;
+                indexMove = random.Next(5040);                  
+            }
+            return s[indexMove];
         }
 
         private static int[] InputAnswer()
@@ -35,25 +59,15 @@ namespace BullsAndCows
             return new int[] { bulls, cows };
         }
 
-        public static void Analysis(int b, int c, int[] n)
+        public static bool Analysis(int bulls, int cows, string a, string b)
         {
-            if (b == 4)
-            {
-                Console.WriteLine("Число угадано!");
-                return;
-            }
-            var resultB = BullsNumeral(b, n);
-            var resultC = CowsNumeral(b, n);
-        }
-
-        private static object CowsNumeral(int b, int[] n)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static object BullsNumeral(int b, int[] n)
-        {
-            throw new NotImplementedException();
+            int countBulls = 0;
+            int countCows = 0;
+            for (int i = 0; i < 4; i++)
+                if (a[i] == b[i]) countBulls++;
+            for (int i = 0; i < 4; i++)
+                if (a[i] != b[i] && b.IndexOf(a[i])!=-1) countCows++;
+            return countBulls == bulls && countCows == cows;
         }
 
         public static void GenerationListNumber()
