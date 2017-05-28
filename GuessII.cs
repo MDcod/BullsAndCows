@@ -13,28 +13,30 @@ namespace BullsAndCows
         public static void GuessIIMain()
         {
             Console.Clear();
-            Console.WriteLine("Игра \"Быки и коровы\"! Компьютер отгадывает число!\n");
-
-            //GenerationListNumber();
-
-            var sochetanie = File.ReadLines("GENERATION.txt").ToArray();
+            Console.WriteLine("Игра \"Быки и коровы\"! Компьютер отгадывает число!");
+            var allCombination = File.ReadLines("GenerationСombinationFourdigitNumbers.txt").ToArray();
             var flag = new bool[5040];
             for (int i = 0; i < 5040; i++)
                 flag[i] = true;            
             string move;
+            var input = new int[2];
             while (true)
             {
-                move = SelectMove(sochetanie, flag);
-                Console.WriteLine(move);
-                var input = InputAnswer();
+                move = SelectMove(allCombination, flag);
+                Console.WriteLine("\n{0}", move);
+                input = InputAnswer();
                 if (input[0] == 4)
                 {
                     Console.WriteLine("Число угадано!");
                     break;
                 }
                 for (int i = 0; i < 5040; i++)
-                    if (!Analysis(input[0], input[1], sochetanie[i], move)) flag[i] = false;                
-                Console.WriteLine("Осталось вариантов: {0}", flag.Count(x => x == true));
+                    if (!Analysis(input[0], input[1], allCombination[i], move)) flag[i] = false;
+                if (flag.Count(x=>x==true) == 0)
+                {
+                    Console.WriteLine("Числа, удовлетворяющего вашим ответам, не существует");
+                    break;
+                }
             }
         }
 
@@ -52,11 +54,19 @@ namespace BullsAndCows
 
         private static int[] InputAnswer()
         {
-            Console.Write("\nКоличество быков: ");
-            var bulls = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Количество коров: ");
-            var cows = Convert.ToInt32(Console.ReadLine());
-            return new int[] { bulls, cows };
+            string bulls;
+            string cows;
+            while (true)
+            {
+                Console.Write("\nКоличество быков: ");
+                bulls = Console.ReadLine();
+                if (!ValidationInput.Bulls(bulls)) continue;
+                Console.Write("Количество коров: ");
+                cows = Console.ReadLine();
+                if (!ValidationInput.Cows(bulls,cows)) continue;
+                break;             
+            }
+            return new int[] { int.Parse(bulls), int.Parse(cows) };
         }
 
         public static bool Analysis(int bulls, int cows, string a, string b)
@@ -68,30 +78,6 @@ namespace BullsAndCows
             for (int i = 0; i < 4; i++)
                 if (a[i] != b[i] && b.IndexOf(a[i])!=-1) countCows++;
             return countBulls == bulls && countCows == cows;
-        }
-
-        public static void GenerationListNumber()
-        {
-            var result = new string[5040];
-            int count = 0;            
-            for (int i = 0; i < 10; i++) // ПЕРВОЕ число                
-                for (int j = 0; j < 10; j++) // ВТОРОЕ число
-                {
-                    if (j == i) continue;                    
-                    for (int k = 0; k < 10; k++) // ТРЕТЬЕ число
-                    {
-                        if ((k == i || k == j)) continue;                        
-                        for (int l = 0; l < 10; l++) // ЧЕТВЕРТОЕ число
-                        {
-                            if ((l == k || l == j || l == i)) continue;
-                            result[count] = String.Format(i.ToString() + j.ToString() + k.ToString() + l.ToString());
-                            count++;
-                        }
-                    }
-                }
-            File.WriteAllLines("GENERATION.txt", result);
-            Console.WriteLine("\nЗапись закончена");
-            Console.WriteLine("Количество комбинаций" + count);
         }
     }
 }

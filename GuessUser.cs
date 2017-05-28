@@ -15,7 +15,7 @@ namespace BullsAndCows
             {
                 var input = Console.ReadLine(); // Ввод числа
                 // Проверка введенного числа, если ввод некоректен, запрашивается новый ввод
-                if (!InputValidation(input)) continue;
+                if (!ValidationInput.UserAnswer(input)) continue;
                 // Преобразование введеного числа в массив цифр
                 var answer = input.Select(n => (int)char.GetNumericValue(n)).ToArray();
                 // Сравнение загаданного числа и числа введенного пользователем
@@ -24,35 +24,6 @@ namespace BullsAndCows
                     ComparisonNumber(enigma, answer)[0], ComparisonNumber(enigma, answer)[1]);
             }
             Console.WriteLine("Число угадано!\n");
-        }
-
-        /// <summary>
-        /// Проверка введеного пользователем числа
-        /// </summary>
-        /// <param name="answer">Запрос пользователя</param>
-        /// <returns></returns>
-        public static bool InputValidation(string input)
-        {
-            if (input.All(x => char.IsNumber(x)) && input.Count() != 4)
-            {
-                Console.WriteLine("Некорректный запрос. Число должно быть четырехзначным");
-                return false;
-            }
-            if (!input.All(c => char.IsNumber(c)))
-            {
-                Console.WriteLine("Некорректный запрос. Запрос должен состоять только из цифр");
-                return false;
-            }
-            for (int i = 0; i < input.Count(); i++)
-                for (int j = i + 1; j < input.Count(); j++)
-                {
-                    if (input[i] == input[j])
-                    {
-                        Console.WriteLine("Некорректный запрос. Не должно быть повторяющихся цифр");
-                        return false;
-                    }
-                }
-            return true;
         }
 
         /// <summary>
